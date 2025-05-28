@@ -35,11 +35,10 @@ impl GitFilterRepository for GitFilterRepositoryImpl {
 
             for delta in diff.deltas() {
                 if let Some(path) = delta.new_file().path()
-                    && path.starts_with(filter_path)
-                {
-                    let filter_result = FilterResults::new(&commit);
-                    result.insert(filter_result);
-                }
+                    && path.to_string_lossy().contains(filter_path) {
+                        let filter_result = FilterResults::new(&commit);
+                        result.insert(filter_result);
+                    }
             }
         }
 
